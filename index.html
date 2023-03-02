@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Disney Finder</title>
+    <script src="https://code.jquery.com/jquery-3.6.3.min.js" integrity="sha256-pvPw+upLPUjgMXY0G+8O0xUf+/Im1MZjXxxgOcBQBXU=" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="/src/css/style.css">
+    <link rel="icon" href="/pictures/mickey_head.png">
+</head>
+
+<body>
+    <header>
+        <div>
+            <p>Disney Finder</p>
+            <button id="help">Need help ?</button>
+        </div>
+    </header>
+    <div id="menu">
+        <h3 style="padding-bottom: 24px;">Which Disney character do you want to play with ?</h3>
+        <input type="text" placeholder="Simba" id="character">
+        <button onclick="getCharacter()" id="search">Search</button>
+    </div>
+
+    <div id="menuQuestion">
+        <h2 id="typeQuestion" style="padding-bottom: 24px;"></h2>
+        <h3 id="question" style="padding-bottom: 24px;">Ceci est une question test</h3>
+        <input type="text" placeholder="Answer .." id="answer">
+        <button onclick="checkAnswer()">Send</button>
+        <div>
+            <button id="stopQuestion" onclick="resetQuestion()">Reset</button>
+        </div>
+    </div>
+
+    <div id="alert" class="hide">
+        <div>
+            <span style="padding-bottom: 24px;">
+                <h1 style="padding-bottom: 32px;" id="alertTitle"></h1>
+                <p id="alertMsg"></p>
+            </span>
+            <span><img src="" alt="Mickey" style="height: 56px;" id="mickeyEmotions"></span>
+        </div>
+        <button onclick="hideAlert()" id="close">Ok</button>
+    </div>
+
+    <div id="helpingDiv">
+        <h1 id="category">Not yet unlock</h1>
+        <div id="solutions"></div>
+    </div>
+</body>
+
+<script src="src/js/script.js"></script>
+</html>
