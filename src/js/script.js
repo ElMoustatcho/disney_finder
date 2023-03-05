@@ -7,12 +7,6 @@ $(document).ready(function () {
             getCharacter();
         }
     });
-
-    $("#answer").keydown(function (event) {
-        if (event.code === 'Enter') {
-            checkAnswer();
-        }
-    });
 });
 
 let character = '';
@@ -24,11 +18,12 @@ let trying = 0;
 let gameOn;
 
 function alert(msgTitle, msg, imgLink) {
+    $("#alertTitle").text('');
     $("#alertTitle").text(msgTitle);
+    $("#alertMsg").empty();
     $("#alertMsg").html(msg);
     $("#mickeyEmotions").attr('src', imgLink);
     $("#alert").toggleClass('hide');
-    $("#close").focus();
 }
 
 function getCharacter() {
@@ -50,65 +45,94 @@ function getCharacter() {
         else {
             alert("We are really sorry", "<p>We didn't find your character</p>", "/pictures/mickey_sad.png");
         }
-        $("#menu").addClass('hide')
-        $("#menuQuestion").fadeIn(2000);
-        randomQuestion(dataCharactere);
     }, "json");
+    if (dataCharactere.length != 0) {
+        $("#menu").addClass('hide');
+        $("#menuQuestion").fadeIn(2000);
+        randomQuestion();
+    }
 }
 
-function randomQuestion(infoCharacter) {
+function randomQuestion() {
     if (!gameOn) {
-        $.each(infoCharacter, function (indexChara, valueChara) {
+        $.each(dataCharactere, function (indexChara, valueChara) {
             if (indexChara == 'films' || indexChara == 'parkAttractions' || indexChara == 'tvShows' || indexChara == 'videoGames' && valueChara.length != 0) {
                 category.push(indexChara);
                 nbCategory++;
             }
         });
     }
-    let randomValue = Math.floor(Math.random() * nbCategory);
-    theme = category[randomValue];
-    $("#typeQuestion").text(theme.replace(/([a-z])([A-Z])/g, '$1 $2'));
-    $("#question").text('In which ' + theme.replace(/([a-z])([A-Z])/g, '$1 $2') + ' do we see ' + character + '?');
-    $("#help").addClass('show');
-    $("#answer").focus();
-    gameOn = true;
+    if (category.length > 0) {
+        let randomValue = Math.floor(Math.random() * nbCategory);
+        nbCategory--;
+        theme = category[randomValue];
+        category.splice(randomValue, 1);
+        $("#typeQuestion").text(theme.replace(/([a-z])([A-Z])/g, '$1 $2'));
+        $("#question").text('In which ' + theme.replace(/([a-z])([A-Z])/g, '$1 $2') + ' do we see ' + character + '?');
+        $("#help").addClass('show');
+        $("#answer").val('');
+        $("#answer").focus();
+        gameOn = true;
+    }
+    else{
+        console.log('Fini')
+        alert("Congratulations !" , "<p>You are a Disney connoisseur!</p>", "/pictures/mickey_happy.gif")
+    }
 }
 
 function checkAnswer() {
     let answer = $("#answer").val();
     let responses = [];
     let goodAnswer;
-    if (answer.length > 0) {
+    if (answer.length >= 1) {
         $.each(dataCharactere[theme], function (themeIndex, themeTitle) {
-            if (answer.split(' ').some(item => themeTitle.includes(item))) {
-                goodAnswer = true;
-                return false;
+            if (themeTitle.split(' ').length >= 2 && answer.split(' ').length >= 2) {
+                if (answer.split(' ').some(item => themeTitle.includes(item))) {
+                    goodAnswer = true;
+                    return false;
+                }
+                else {
+                    goodAnswer = false;
+                }
             }
-            else {
-                goodAnswer = false;
+            else if (themeTitle.split(' ').length == 1 && answer.split(' ').length == 1) {
+                if (answer.split(' ').some(item => themeTitle.includes(item))) {
+                    goodAnswer = true;
+                    return false;
+                }
+                else {
+                    goodAnswer = false;
+                }
+            }
+            else{
+                alert("We are really sorry", "<p>Your answer is not complete</p>", "/pictures/mickey_sad.png");
             }
             responses.push(themeTitle);
         });
+
+        if (goodAnswer) {
+            alert("Congratulations", "<p>You got the right answer</p>", "/pictures/mickey_happy.gif");
+            trying = 0;
+            $("#category").text("Not unlocked yet");
+            $("#solutions").empty()
+            randomQuestion();
+        }
+        else{
+            alert("We are really sorry", "<p>Your answer is not correct</p>", "/pictures/mickey_sad.png");
+            trying++
+            if (trying == 3) {
+                let html = '<ul>';
+                $("#category").text(theme.replace(/([a-z])([A-Z])/g, '$1 $2'));
+                for (let i = 0; i < responses.length; i++) {
+                    html += '<li>'+responses[i]+'</li>';
+                }
+                html += '</ul>';
+                $("#solutions").html(html)
+            }
+        }
     }
     else {
         alert("We are really sorry", "<p>Your answer is not complete</p>", "/pictures/mickey_sad.png");
-    }
-    if (goodAnswer) {
-        alert("Congratulations", "You got the right answer", "/pictures/mickey_happy.png");
-        trying = 0
-    }
-    else{
-        alert("We are really sorry", "<p>Your answer is not complete</p>", "/pictures/mickey_sad.png");
-        trying++
-        if (trying == 2) {
-            let html = '<ul>';
-            $("#category").text(theme.replace(/([a-z])([A-Z])/g, '$1 $2'));
-            for (let i = 0; i < responses.length; i++) {
-                html += '<li>'+responses[i]+'</li>';
-            }
-            html += '</ul>';
-            $("#solutions").html(html)
-        }
     }
 }
 
