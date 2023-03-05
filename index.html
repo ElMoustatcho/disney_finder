@@ -15,7 +15,8 @@
     <header>
         <div>
             <p>Disney Finder</p>
-            <button id="help">Need help ?</button>
+            <button id="help" onclick="helpQuestion()">Need help ?</button>
+            <button id="rules" onclick="showRules()">Rules</button>
         </div>
     </header>
     <div id="menu">
@@ -26,7 +27,7 @@
 
     <div id="menuQuestion">
         <h2 id="typeQuestion" style="padding-bottom: 24px;"></h2>
-        <h3 id="question" style="padding-bottom: 24px;">Ceci est une question test</h3>
+        <h3 id="question" style="padding-bottom: 24px;"></h3>
         <input type="text" placeholder="Answer .." id="answer">
         <button onclick="checkAnswer()">Send</button>
         <div>
@@ -36,9 +37,9 @@
 
     <div id="alert" class="hide">
         <div>
-            <span style="padding-bottom: 24px;">
+            <span style="padding-right: 24px;">
                 <h1 style="padding-bottom: 32px;" id="alertTitle"></h1>
-                <p id="alertMsg"></p>
+                <div id="alertMsg"></div>
             </span>
             <span><img src="" alt="Mickey" style="height: 56px;" id="mickeyEmotions"></span>
         </div>
@@ -46,7 +47,7 @@
     </div>
 
     <div id="helpingDiv">
-        <h1 id="category"></h1>
+        <h1 id="category">Not unlocked yet</h1>
         <div id="solutions"></div>
     </div>
 

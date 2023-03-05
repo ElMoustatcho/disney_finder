@@ -5,21 +5,21 @@
     src: url('/src/css/font/waltographUI.ttf');
 }
 
-*{
+* {
     margin: 0;
     padding: 0;
 }
 
-input::placeholder{
+input::placeholder {
     font-family: Walter;
 }
 
-input[type="text"]{
+input[type="text"] {
     font-family: Walter;
     color: #252525;
 }
 
-button{
+button {
     border: none;
     margin: 0;
     padding: 0;
@@ -31,15 +31,19 @@ button{
     line-height: normal;
 }
 
-ul{
+ul {
     list-style: none;
 }
 
-button:hover{
+li {
+    padding: 2px;
+}
+
+button:hover {
     cursor: pointer;
 }
 
-body{
+body {
     display: flex;
     justify-content: center;
     font-family: Walter;
@@ -50,7 +54,7 @@ body{
     animation: bgMoving 35s linear infinite alternate;
 }
 
-header{
+header {
     width: 100%;
     padding-top: 12px;
     padding-bottom: 12px;
@@ -58,54 +62,54 @@ header{
     padding-right: 32px;
 }
 
-header div{
+header div {
     display: flex;
     justify-content: space-between;
     font-size: 30px;
     line-height: 36px;
 }
 
-header div button#rules{
+header div button#rules {
     z-index: 2;
 }
 
-header div button#help{
+header div button#help {
     opacity: 0;
     z-index: -1;
 }
 
-header div button#help.show{
+header div button#help.show {
     transition: opacity ease-in-out 2s;
     opacity: 1;
-    z-index:2;
+    z-index: 2;
 }
 
-#menu{
+#menu {
     position: absolute;
     top: 40%;
     text-align: center;
     z-index: 1;
 }
 
-#menu p{
+#menu p {
     font-size: 12px;
 }
 
-#menu{
+#menu {
     transition: transform ease-in-out 1s;
 }
 
 #menu.hide {
-    transform : translateX(-250%);
+    transform: translateX(-250%);
 }
 
-#menu input{
+#menu input {
     border: solid 2px #38bdf8;
     border-radius: 50px;
     padding: 4px;
 }
 
-#menuQuestion{
+#menuQuestion {
     display: none;
     position: absolute;
     top: 35%;
@@ -113,22 +117,22 @@ header div button#help.show{
     z-index: 1;
 }
 
-#menuQuestion input{
+#menuQuestion input {
     border: solid 2px #38bdf8;
     border-radius: 50px;
     padding: 4px;
 }
 
-#menuQuestion div{
+#menuQuestion div {
     padding-top: 18px;
 }
 
-#menuQuestion div button:hover{
+#menuQuestion div button:hover {
     color: #FF0000;
 }
 
 
-#helpingDiv{
+#helpingDiv {
     position: absolute;
     right: 0;
     width: 25%;
@@ -143,19 +147,19 @@ header div button#help.show{
     opacity: 0;
 }
 
-#helpingDiv.show{
+#helpingDiv.show {
     opacity: 1;
     z-index: 1;
     transition: opacity ease-in-out 1s;
 }
 
-#helpingDiv.hide{
+#helpingDiv.hide {
     opacity: 0;
     z-index: -1;
     transition: opacity ease-in-out 1s;
 }
 
-#alert{
+#alert {
     position: absolute;
     top: 35%;
     width: 35%;
@@ -167,33 +171,34 @@ header div button#help.show{
     box-shadow: 0 0 1em black;
 }
 
-#alert.hide{
+#alert.hide {
     display: none;
 }
 
-#alert div{
+#alert div {
     display: flex;
     justify-content: center;
     align-items: center;
     padding-bottom: 4px;
 }
 
-#alert button{
+#alert button {
     border-radius: 6px;
     padding: 6px;
     margin-top: 20px;
     color: white;
 }
 
-#alert button:hover{
+#alert button:hover {
     background-color: #5eead4;
     color: #252525;
 }
 
-@keyframes bgMoving{
+@keyframes bgMoving {
     from {
         background-position: 0 0;
     }
+
     to {
         background-position: 100% 0;
     }
