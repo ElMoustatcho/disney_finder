@@ -1,12 +1,18 @@
 $(document).ready(function () {
 
     $("#character").focus();
+});
 
-    $("#character").keydown(function (event) {
-        if (event.code === 'Enter') {
-            getCharacter();
-        }
-    });
+$("#character").keydown(function (event) {
+    if (event.code === 'Enter') {
+        getCharacter();
+    }
+});
+
+$("#answer").keydown(function (event) {
+    if (event.code === 'Enter') {
+        checkAnswer();
+    }
 });
 
 let character = '';
@@ -16,15 +22,6 @@ let nbCategory = 0;
 let theme = '';
 let trying = 0;
 let gameOn;
-
-function alert(msgTitle, msg, imgLink) {
-    $("#alertTitle").text('');
-    $("#alertTitle").text(msgTitle);
-    $("#alertMsg").empty();
-    $("#alertMsg").html(msg);
-    $("#mickeyEmotions").attr('src', imgLink);
-    $("#alert").toggleClass('hide');
-}
 
 function getCharacter() {
     character = $("#character").val();
@@ -75,8 +72,9 @@ function randomQuestion() {
         gameOn = true;
     }
     else{
-        console.log('Fini')
-        alert("Congratulations !" , "<p>You are a Disney connoisseur!</p>", "/pictures/mickey_happy.gif")
+        setTimeout(() => {
+            location.reload();
+         }, 5000);
     }
 }
 
@@ -84,8 +82,10 @@ function checkAnswer() {
     let answer = $("#answer").val();
     let responses = [];
     let goodAnswer;
+    //Check if answer is not empty
     if (answer.length >= 1) {
         $.each(dataCharactere[theme], function (themeIndex, themeTitle) {
+            //check if player answer AND answer length is superior than 2 (So if the answer for "The lion king" is "Lion" that will not work)
             if (themeTitle.split(' ').length >= 2 && answer.split(' ').length >= 2) {
                 if (answer.split(' ').some(item => themeTitle.includes(item))) {
                     goodAnswer = true;
@@ -105,13 +105,24 @@ function checkAnswer() {
                 }
             }
             else{
-                alert("We are really sorry", "<p>Your answer is not complete</p>", "/pictures/mickey_sad.png");
+                goodAnswer = false;
             }
             responses.push(themeTitle);
         });
 
         if (goodAnswer) {
-            alert("Congratulations", "<p>You got the right answer</p>", "/pictures/mickey_happy.gif");
+            if (nbCategory == 0) {
+                alert("Congratulations !" , 
+                `
+                    <p>You are a Disney connoisseur!</p><br>
+                    <p>The page will auto refresh</p>
+                `,
+                "/pictures/mickey_happy.gif")
+                $("#menuQuestion").fadeOut(2000)
+            }
+            else{
+                alert("Congratulations", "<p>You got the right answer</p>", "/pictures/mickey_happy.gif");
+            }
             trying = 0;
             $("#category").text("Not unlocked yet");
             $("#solutions").empty()
@@ -136,6 +147,15 @@ function checkAnswer() {
     }
 }
 
+function alert(msgTitle, msg, imgLink) {
+    $("#alertTitle").text('');
+    $("#alertTitle").text(msgTitle);
+    $("#alertMsg").empty();
+    $("#alertMsg").html(msg);
+    $("#mickeyEmotions").attr('src', imgLink);
+    $("#alert").toggleClass('hide');
+}
+
 function helpQuestion() {
     if ($("#helpingDiv").hasClass('show')) {
         $("#helpingDiv").removeClass('show');
@@ -148,7 +168,7 @@ function helpQuestion() {
 }
 
 function resetQuestion() {
-    location.reload()
+    location.reload();
 }
 
 function showRules() {
